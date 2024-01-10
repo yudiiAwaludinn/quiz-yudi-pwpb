@@ -21,11 +21,11 @@ let pilihan = [
 
 const menuSection = document.querySelector(".menu-section");
 
-.map(() => {
-  menuSection.innerHTML += (.name, .desc, .price, .id);
+pilihan.map((data) => {
+  menuSection.innerHTML += kartu(data.name, data.desc, data.price, data.id);
 });
 
-function kartu() {
+function kartu(name, deskripsi, price, id) {
   return `<!-- card -->
 	<div class="card">
 		<button class="kategori" aria-readonly="true">Paket</button>
@@ -39,15 +39,35 @@ function kartu() {
 				/>
 			</div>
 			<div class="content">
-				<p></p>
-				<p></p>
-				<p></p>
+				<p>${name}</p>
+				<p>${deskripsi}</p>
+				<p>${price}</p>
 				<div class="content2">
-					<button class="tambah" id="pesan{id}">pesan</button>
+					<button class="tambah" id="pesan${id}">pesan</button>
 				</div>
 			</div>
 		</div>
 	</div>`;
 }
 
-.map(() => {});
+pilihan.map((date) => {
+  const pesan = document.getElementById(`pesan${date.id}`);
+
+  pesan.addEventListener("click", (e) => {
+    e.preventDefault();
+    const jumlah = prompt("Berapa yang anda ingin pesan?");
+
+    if (jumlah !== null) {
+      if (jumlah !== "") {
+        const total = date.price * jumlah;
+        localStorage.setItem("jumlah", jumlah);
+        localStorage.setItem("total", total);
+		    localStorage.setItem("name", date.name)
+        localStorage.setItem("pesanan", date.name)
+        window.location.href = "order.html";
+      } else {
+        alert("Masukan jumlah pesanan");
+      }
+    }
+  });
+});
